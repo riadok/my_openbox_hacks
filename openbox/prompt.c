@@ -52,7 +52,7 @@ static void prompt_resize(ObPrompt *self, gint w, gint h);
 static void prompt_run_callback(ObPrompt *self, gint result);
 
 void prompt_startup(gboolean reconfig)
-{
+{    
     /* note: this is not a copy, don't free it */
     prompt_a_bg = ob_rr_theme->osd_bg;
 

@@ -1472,7 +1472,8 @@ static void event_handle_client(ObClient *client, XEvent *e)
                (including panels such as xfce4-panel and gnome-panel).
                So we are left just assuming all activations are from the user.
             */
-            client_activate(client, FALSE, FALSE, TRUE, TRUE, TRUE);
+            
+            client_activate(client, TRUE, FALSE, TRUE, TRUE, TRUE);
         } else if (msgtype == OBT_PROP_ATOM(NET_WM_MOVERESIZE)) {
             ob_debug("net_wm_moveresize for 0x%lx direction %d",
                      client->window, e->xclient.data.l[2]);

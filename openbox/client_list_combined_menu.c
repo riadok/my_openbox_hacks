@@ -48,10 +48,10 @@ static gboolean self_update(ObMenuFrame *frame, gpointer data)
     ObMenuEntry *e;
     GList *it;
     guint desktop;
-
+    
     menu_clear_entries(menu);
 
-    for (desktop = 0; desktop < screen_num_desktops; desktop++) {
+    for (desktop = screen_desktop; desktop < screen_num_desktops;) {
         gboolean empty = TRUE;
         gboolean onlyiconic = TRUE;
 
@@ -67,6 +67,7 @@ static gboolean self_update(ObMenuFrame *frame, gpointer data)
                 if (c->iconic) {
                     gchar *title = g_strdup_printf("(%s)", c->icon_title);
                     e = menu_add_normal(menu, desktop, title, NULL, FALSE);
+                    
                     g_free(title);
                 } else {
                     onlyiconic = FALSE;
@@ -94,6 +95,9 @@ static gboolean self_update(ObMenuFrame *frame, gpointer data)
             if (desktop == screen_desktop)
                 e->data.normal.enabled = FALSE;
         }
+        if(desktop == screen_desktop) desktop = 0;
+        else desktop++;
+        if(desktop == screen_desktop) desktop++;
     }
 
     if (config_menu_manage_desktops) {

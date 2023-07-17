@@ -515,6 +515,7 @@ void client_manage(Window window, ObPrompt *prompt)
            Also if you don't have focus_new enabled, then it's going to get
            raised to the top. Legacy begets legacy I guess?
         */
+
         if (!client_restore_session_stacking(self))
             stacking_raise(CLIENT_AS_WINDOW(self));
     }
@@ -2022,7 +2023,7 @@ void client_update_wmhints(ObClient *self)
         if (ob_state() != OB_STATE_STARTING && self->frame == NULL)
             if (hints->flags & StateHint)
                 self->iconic = hints->initial_state == IconicState;
-
+        
         ur = self->urgent;
         self->urgent = (hints->flags & XUrgencyHint);
         if (self->urgent && !ur)
@@ -2850,7 +2851,7 @@ static void client_apply_startup_state(ObClient *self,
     gboolean max_vert = self->max_vert;
     Rect oldarea;
     gint l;
-
+    
     /* turn them all off in the client, so they won't affect the window
        being placed */
     self->iconic = self->fullscreen = self->undecorated = self->shaded =
@@ -3710,13 +3711,13 @@ void client_hilite(ObClient *self, gboolean hilite)
 {
     if (self->demands_attention == hilite)
         return; /* no change */
-
+    
     /* don't allow focused windows to hilite */
     self->demands_attention = hilite && !client_focused(self);
     if (self->frame != NULL) { /* if we're mapping, just set the state */
         if (self->demands_attention) {
             frame_flash_start(self->frame);
-
+        
             /* if the window is on another desktop then raise it and make it
                the most recently used window */
             if (self->desktop != screen_desktop &&
@@ -3849,7 +3850,7 @@ void client_set_wm_state(ObClient *self, glong state)
 }
 
 void client_set_state(ObClient *self, Atom action, glong data1, glong data2)
-{
+{    
     gboolean shaded = self->shaded;
     gboolean fullscreen = self->fullscreen;
     gboolean undecorated = self->undecorated;
@@ -4109,7 +4110,7 @@ void client_activate(ObClient *self, gboolean desktop,
                      gboolean unshade, gboolean user)
 {
     self = client_focus_target(self);
-
+    
     if (client_can_steal_focus(self, desktop, user, event_time(), CurrentTime))
         client_present(self, here, raise, unshade);
     else
