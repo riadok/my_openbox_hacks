@@ -2718,16 +2718,19 @@ void client_calc_layer(ObClient *self)
     client_calc_layer_internal(self);
 
     /* skip over stuff above fullscreen layer */
-    for (it = stacking_list; it; it = g_list_next(it))
-        if (window_layer(it->data) <= OB_STACKING_LAYER_FULLSCREEN) break;
+    for (it = stacking_list; g_list_next(it); it = g_list_next(it))
+        if (window_layer( g_list_next(it)->data) <= OB_STACKING_LAYER_FULLSCREEN) break;
 
     /* now recalc any windows in the fullscreen layer which have not
        had their layer recalced already */
-    for (; it; it = g_list_next(it)) {
-        if (window_layer(it->data) < OB_STACKING_LAYER_FULLSCREEN) break;
-        else if (WINDOW_IS_CLIENT(it->data) &&
-                 !WINDOW_AS_CLIENT(it->data)->visited)
-            client_calc_layer_internal(it->data);
+    for (; g_list_next(it); it = g_list_next(it)) {
+        GList *next_it = g_list_next(it);
+        if (window_layer(next_it->data) < OB_STACKING_LAYER_FULLSCREEN) break;
+        else if (WINDOW_IS_CLIENT(next_it->data) &&
+                 !WINDOW_AS_CLIENT(next_it->data)->visited)
+            {
+                client_calc_layer_internal(next_it->data);
+            }
     }
 }
 
